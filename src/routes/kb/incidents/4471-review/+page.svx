@@ -4,7 +4,7 @@ title: '#4471 review: separate mechanisms, separate tracking'
 owner: support desk
 status: draft
 reviewed: 2026-10-31
-signature: 'OpenCode (github-copilot/gpt-6.1-sol), local export review'
+signature: 'v1.eyJzdWIiOiI2MTU1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM0MzUxNzcsImV4cCI6MTc5MzUyMTU3N30.tW7b51QBLnFlLfeqc-bbqE1fC-NQsiZJyLiqDGe_Bvk'
 ---
 
 <script>
@@ -93,8 +93,8 @@ The course's engineering update states that support ticket #4471 closed on
 
 | Mechanism | Desk outcome | Evidence from the update | Tracking disposition |
 | --- | --- | --- | --- |
-| Parser | Fixed | `fix(dates): parse dd/mm for eu locales` | Close as completed |
-| Form hint | Won't fix | `booking-v3 form retired` | Close as not planned |
+| Parser | Fixed | `fix(dates): parse dd/mm for eu locales` | Closed as completed |
+| Form hint | Won't fix | `booking-v3 form retired` | Closed as not planned |
 
 Retiring the form is not a hint correction. Do not describe both issues as
 fixed merely because their parent ticket closed. The production change was

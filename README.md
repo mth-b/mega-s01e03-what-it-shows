@@ -40,9 +40,15 @@ unresolved symptoms, and links the public tracking issues:
 - [Parser: 379 classified reports](https://github.com/mth-b/mega-s01e03-what-it-shows/issues/1).
 - [Form hint: 33 classified reports](https://github.com/mth-b/mega-s01e03-what-it-shows/issues/2).
 
-This repository contains the KB source export, not a runnable application.
-No package manifest or build configuration was supplied. The review is a
-draft based on the export, not a live support-desk check.
+`4471-review.html` is the static server-rendered review, generated from the
+actual KB components. It includes their computed tables, timeline, and desk
+reference. Explorer inputs are shown but do not hydrate in this static copy.
+
+The original export supplied no application build configuration. To regenerate
+the review, install `svelte@5`, `mdsvex@0.12`, and `typescript@5`, then run
+`node render-review.mjs`. Dependencies and intermediate output are git-ignored.
+The review incorporates the course engineering update: parser fixed, hint
+not fixed because booking-v3 was retired. It is not an independent production test.
 
 ---
 
