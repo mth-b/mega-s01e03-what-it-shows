@@ -1,0 +1,94 @@
+---
+layout: runbook
+title: '#4471 review: separate mechanisms, separate tracking'
+owner: support desk
+status: draft
+reviewed: 2026-10-31
+signature: 'OpenCode (github-copilot/gpt-6.1-sol), local export review'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+## Scope and evidence
+
+This review uses the support KB export dated 2026-10-04. It is not a live
+desk check. The [original incident](/kb/incidents/4471) says that one fix
+will cover the merged ticket. The executable classification identifies
+different mechanisms, so that statement should not guide triage without review.
+
+Counts below deduplicate report IDs before filtering to this ticket. Intake
+tags are guesses from browser locale; the classifier uses tenant locale,
+booking form version, and intake channel. Neither an intake tag nor a matching
+subject proves that reports have the same cause.
+
+<CauseTable ticket={4471} />
+
+## Shared parser
+
+The shared parser reads day-first input as month-first. For example, R-41200
+describes 7 April becoming 4 July, and R-41201 describes the reverse swap.
+The classifier assigns day-first tenants' reports to this mechanism except
+for booking-v3 form submissions.
+
+Track the parser separately. Verify an explicit locale-aware date contract,
+ambiguous dates, day values above twelve, and each supported intake channel.
+Do not promise that this fix resolves every report in the classifier group.
+
+## Booking form hint
+
+Booking-v3 prints `MM/DD/YYYY` while interpreting submissions according to
+the day-first tenant convention. Following the displayed hint can therefore
+produce a different date. The affected form submissions belong to Alder
+Physio, Copper Studio, and Pale Harbour; examples include R-41230, R-41241,
+and R-41251.
+
+Track this mechanism independently of the shared parser. Derive the displayed
+hint and the accepted interpretation from the same contract, and test
+booking-v3 forms with ambiguous input such as `04/07`.
+
+## Unresolved symptoms
+
+Desk notes flag R-41202, R-41209, R-41236, R-41344, and R-41620. Their bodies
+mention adjacent weekdays, a June-only shift, an invite preceding a booking,
+and different weekdays in Lisbon and Toronto. The current classifier assigns
+them to parser by tenant; it does not examine those symptoms.
+
+Retain their existing counted membership until evidence supports a different
+classification. Check the original timestamps, intended local dates, time
+zones, and event history before asserting another root cause or a report
+count for it. Do not discard these reports because the ticket is marked known.
+
+## Triage and queue history
+
+The subject-based [triage page](/kb/triage/dedupe) and
+[accepted decision 0001](/kb/decisions/0001-dedupe-by-subject) disagree with
+the cause-based explorer. Different subjects can describe the same mechanism,
+and identical subjects can describe different ones.
+
+<DedupeExplorer />
+
+Investigate the mechanism before merging, and keep uncertain reports visible.
+This draft does not rewrite the accepted decision or claim to enact a new
+policy. A reviewed replacement decision is required to change that policy.
+
+Received time and merge time describe different events. Use both to understand
+the backlog rather than treating the merge date as the incident start.
+
+<QueueTimeline ticket={4471} />
+
+## Tracking status
+
+The exported classifier groups now have separate public tracking issues:
+
+- [Shared date parser](https://github.com/mth-b/mega-s01e03-what-it-shows/issues/1).
+- [Booking-v3 form hint](https://github.com/mth-b/mega-s01e03-what-it-shows/issues/2).
+
+No fix status has been independently verified. Check the current desk state
+before marking this page reviewed for operational use.
+
+<RenderStamp {signature} />
